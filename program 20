@@ -1,0 +1,91 @@
+Write a C program to compute LEADING( ) – operator precedence parser for the given
+grammar
+E → E + T | T
+T → T * F | F
+F → ( E ) | id
+Program:
+#include&lt;conio.h&gt;
+#include&lt;stdio.h&gt;
+char arr[18][3] ={{&#39;E&#39;, &#39;+&#39;, &#39;F&#39;},{&#39;E&#39;, &#39;*&#39;, &#39;F&#39;},{&#39;E&#39;, &#39;(&#39;, &#39;F&#39;}, {&#39;E&#39;, &#39;)&#39;, &#39;F&#39;},{&#39;E&#39;, &#39;i&#39;, &#39;F&#39;},{&#39;E&#39;, &#39;$&#39;, &#39;F&#39;},
+{&#39;F&#39;, &#39;+&#39;, &#39;F&#39;},{&#39;F&#39;, &#39;*&#39;, &#39;F&#39;},{&#39;F&#39;, &#39;(&#39;, &#39;F&#39;},{&#39;F&#39;, &#39;)&#39;, &#39;F&#39;},{&#39;F&#39;, &#39;i&#39;, &#39;F&#39;},{&#39;F&#39;, &#39;$&#39;, &#39;F&#39;}, {&#39;T&#39;, &#39;+&#39;, &#39;F&#39;},
+{&#39;T&#39;, &#39;*&#39;, &#39;F&#39;}, {&#39;T&#39;, &#39;(&#39;, &#39;F&#39;},{&#39;T&#39;, &#39;)&#39;, &#39;F&#39;},{&#39;T&#39;, &#39;i&#39;, &#39;F&#39;},{&#39;T&#39;, &#39;$&#39;, &#39;F&#39;}};
+char prod[] = &quot;EETTFF&quot;;
+char res[6][3] ={ {&#39;E&#39;, &#39;+&#39;, &#39;T&#39;}, {&#39;T&#39;, &#39;\0&#39;}, {&#39;T&#39;, &#39;*&#39;, &#39;F&#39;}, {&#39;F&#39;, &#39;\0&#39;}, {&#39;(&#39;, &#39;E&#39;, &#39;)&#39;}, {&#39;i&#39;, &#39;\0&#39;}};
+char stack [5][2];
+int top = -1;
+void install(char pro, char re) {
+int i;
+for (i = 0; i &lt; 18; ++i) {
+if (arr[i][0] == pro &amp;&amp; arr[i][1] == re) {
+arr[i][2] = &#39;T&#39;;
+break;
+}
+}
+++top;
+stack[top][0] = pro;
+stack[top][1] = re;
+}
+int main() {
+int i = 0, j;
+char pro, re, pri = &#39; &#39;;
+for (i = 0; i &lt; 6; ++i) {
+
+for (j = 0; j &lt; 3 &amp;&amp; res[i][j] != &#39;\0&#39;; ++j) {
+if (res[i][j] == &#39;+&#39; || res[i][j] == &#39;*&#39; || res[i][j] == &#39;(&#39; || res[i][j] == &#39;)&#39; || res[i][j] ==
+&#39;i&#39; || res[i][j] == &#39;$&#39;) {
+install(prod[i], res[i][j]);
+break;
+}
+}
+}
+while (top &gt;= 0) {
+pro = stack[top][0];
+re = stack[top][1];
+--top;
+for (i = 0; i &lt; 6; ++i) {
+if (res[i][0] == pro &amp;&amp; res[i][0] != prod[i]) {
+install(prod[i], re);
+}
+}
+}
+for (i = 0; i &lt; 18; ++i) {
+printf(&quot;\n\t&quot;);
+for (j = 0; j &lt; 3; ++j)
+printf(&quot;%c\t&quot;, arr[i][j]);
+}
+getch();
+printf(&quot;\n\n&quot;);
+for (i = 0; i &lt; 18; ++i) {
+if (pri != arr[i][0]) {
+pri = arr[i][0];
+printf(&quot;\n\t%c -&gt; &quot;, pri);
+}
+if (arr[i][2] == &#39;T&#39;)
+printf(&quot;%c &quot;, arr[i][1]);
+}
+getch();
+}
+
+Output:
+E + T
+E * T
+E ( T
+E ) F
+E i T
+E $ F
+F + F
+F * F
+F ( T
+F ) F
+F i T
+F $ F
+T + F
+T * T
+T ( T
+T ) F
+T i T
+T $ F
+
+E -&gt; + * ( i
+F -&gt; ( i
+T -&gt; * ( i
