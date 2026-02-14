@@ -1,0 +1,38 @@
+Program:
+#include&lt;stdio.h&gt;
+#include&lt;conio.h&gt;
+#include&lt;string.h&gt;
+int main() {
+char string[50];
+int flag,count=0;
+printf(&quot;The grammar is: S-&gt;aS, S-&gt;Sb, S-&gt;ab\n&quot;);
+printf(&quot;Enter the string to be checked:\n&quot;);
+gets(string);
+if(string[0]==&#39;a&#39;) {
+flag=0;
+for (count=1;string[count-1]!=&#39;\0&#39;;count++) {
+if(string[count]==&#39;b&#39;) {
+
+flag=1;
+continue;
+} else if((flag==1)&amp;&amp;(string[count]==&#39;a&#39;)) {
+printf(&quot;The string does not belong to the specified
+
+grammar&quot;);
+
+break;
+} else if(string[count]==&#39;a&#39;)
+continue; else if((flag==1)&amp;&amp;(string[count]=&#39;\0&#39;)) {
+printf(&quot;String not accepted…..!!!!&quot;);
+break;
+} else {
+printf(&quot;String accepted&quot;);
+}
+}
+}
+}
+Output:
+The grammar is: S-&gt;aS, S-&gt;Sb, S-&gt;ab
+Enter the string to be checked:
+abb
+String accepted
