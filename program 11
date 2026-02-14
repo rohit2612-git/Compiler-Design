@@ -1,0 +1,158 @@
+Program:
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;string.h&gt;
+int cnt=0;
+struct symtab
+{
+char label[20];
+int addr;
+}
+sy[50];
+void insert();
+int search(char *);
+void display();
+void modify();
+int main()
+
+{
+int ch,val;
+char lab[10];
+do
+{
+printf(&quot;\n1.insert\n2.display\n3.search\n4.modify\n5.exit\n&quot;);
+scanf(&quot;%d&quot;,&amp;ch);
+switch(ch)
+{
+case 1:
+insert();
+break;
+case 2:
+display();
+break;
+
+case 3:
+printf(&quot;enter the label&quot;);
+
+scanf(&quot;%s&quot;,lab);
+val=search(lab);
+if(val==1)
+printf(&quot;label is found&quot;);
+else
+printf(&quot;label is not found&quot;);
+break;
+case 4:
+
+modify();
+break;
+case 5:
+
+exit(0);
+break;
+}
+}while(ch&lt;5);
+}
+void insert()
+{
+int val;
+char lab[10];
+
+int symbol;
+printf(&quot;enter the label&quot;);
+scanf(&quot;%s&quot;,lab);
+val=search(lab);
+if(val==1)
+printf(&quot;duplicate symbol&quot;);
+else
+{
+strcpy(sy[cnt].label,lab);
+printf(&quot;enter the address&quot;);
+scanf(&quot;%d&quot;,&amp;sy[cnt].addr);
+cnt++;
+}
+}
+int search(char *s)
+{
+int flag=0,i; for(i=0;i&lt;cnt;i++)
+{
+if(strcmp(sy[i].label,s)==0)
+flag=1;
+}
+return flag;
+}
+void modify()
+{
+int val,ad,i;
+char lab[10];
+printf(&quot;enter the labe:&quot;);
+scanf(&quot;%s&quot;,lab);
+val=search(lab);
+if(val==0)
+printf(&quot;no such symbol&quot;);
+else
+{
+printf(&quot;label is found \n&quot;);
+printf(&quot;enter the address&quot;);
+scanf(&quot;%d&quot;,&amp;ad);
+
+for(i=0;i&lt;cnt;i++)
+{
+if(strcmp(sy[i].label,lab)==0)
+sy[i].addr=ad;
+}
+}
+}
+void display()
+{
+int i;
+for(i=0;i&lt;cnt;i++)
+printf(&quot;%s\t%d\n&quot;,sy[i].label,sy[i].addr);
+}
+
+Output:
+1.insert
+2.display
+3.search
+4.modify
+5.exit
+1
+enter the label a
+enter the address 100
+1.insert
+2.display
+3.search
+4.modify
+5.exit
+2
+a 100
+1.insert
+2.display
+3.search
+
+4.modify
+5.exit
+3
+enter the label a
+label is found
+1.insert
+2.display
+3.search
+4.modify
+5.exit
+4
+enter the labe: a
+label is found
+enter the address 200
+1.insert
+2.display
+3.search
+4.modify
+5.exit
+2
+a 200
+1.insert
+2.display
+3.search
+4.modify
+5.exit
+5
