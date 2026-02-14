@@ -1,0 +1,71 @@
+Program:
+#include&lt;stdio.h&gt;
+
+#include&lt;conio.h&gt;
+int main()
+{
+char s[5];
+printf(&quot;\n Enter any operator:&quot;);
+gets(s);
+switch(s[0])
+{
+case&#39;&gt;&#39;:
+if(s[1]==&#39;=&#39;)
+printf(&quot;\n Greater than or equal&quot;);
+else
+printf(&quot;\n Greater than&quot;);
+break;
+case&#39;&lt;&#39;:
+if(s[1]==&#39;=&#39;)
+printf(&quot;\n Less than or equal&quot;);
+else
+printf(&quot;\nLess than&quot;);
+break;
+case&#39;=&#39;:
+if(s[1]==&#39;=&#39;)
+printf(&quot;\nEqual to&quot;);
+else
+printf(&quot;\nAssignment&quot;);
+break;
+case&#39;!&#39;:
+if(s[1]==&#39;=&#39;)
+printf(&quot;\nNot Equal&quot;);
+else
+printf(&quot;\n Bit Not&quot;);
+break;
+case&#39;&amp;&#39;:
+if(s[1]==&#39;&amp;&#39;)
+printf(&quot;\nLogical AND&quot;);
+else
+printf(&quot;\n Bitwise AND&quot;);
+
+break;
+case&#39;|&#39;:
+if(s[1]==&#39;|&#39;)
+printf(&quot;\nLogical OR&quot;);
+else
+printf(&quot;\nBitwise OR&quot;);
+break;
+case&#39;+&#39;:
+printf(&quot;\n Addition&quot;);
+break;
+case&#39;-&#39;:
+printf(&quot;\nSubstraction&quot;);
+break;
+case&#39;*&#39;:
+printf(&quot;\nMultiplication&quot;);
+break;
+case&#39;/&#39;:
+printf(&quot;\nDivision&quot;);
+break;
+case&#39;%&#39;:
+printf(&quot;Modulus&quot;);
+break;
+default:
+printf(&quot;\n Not a operator&quot;);
+
+}
+}
+Output:
+Enter any operator:&lt;=
+Less than or equal
