@@ -1,0 +1,131 @@
+
+E → TE’
+E’ → +TE’ / ∈
+T → FT’
+T’ → *FT’ / ∈
+
+F → ( E ) / id
+
+Program:
+#include&lt;stdio.h&gt;
+#include&lt;conio.h&gt;
+#include&lt;string.h&gt;
+char input[100];
+int i,l;
+void main()
+{
+//clrscr();
+printf(&quot;\nRecursive descent parsing for the following grammar\n&quot;); printf(&quot;\nE-
+&gt;TE&#39;\nE&#39;-&gt;+TE&#39;/@\nT-&gt;FT&#39;\nT&#39;-&gt;*FT&#39;/@\nF-&gt;(E)/ID\n&quot;); printf(&quot;\nEnter the
+string to be checked:&quot;); gets(input);
+if(E())
+{
+if(input[i+1]==&#39;\0&#39;)
+printf(&quot;\nString is accepted&quot;);
+else
+printf(&quot;\nString is not accepted&quot;);
+}
+else
+printf(&quot;\nString not accepted&quot;);
+getch();
+}
+E()
+{
+if(T())
+{
+if(EP())
+return(1);
+else
+return(0);
+
+}
+else
+return(0);
+}
+EP()
+{
+if(input[i]==&#39;+&#39;)
+{
+i++;
+if(T())
+{
+if(EP())
+return(1);
+else
+return(0);
+}
+else
+return(0);
+}
+else
+return(1);
+}
+T()
+{
+if(F())
+{
+if(TP())
+return(1);
+else
+return(0);
+}
+else
+return(0);
+}
+TP()
+{
+if(input[i]==&#39;*&#39;)
+
+{
+i++;
+if(F())
+{
+if(TP())
+return(1);
+else
+return(0);
+}
+else
+return(0);
+}
+else
+return(1);
+}
+F()
+{
+if(input[i]==&#39;(&#39;)
+{
+i++;
+if(E())
+{
+if(input[i]==&#39;)&#39;)
+{
+i++;
+return(1);
+}
+else
+return(0);
+}
+else
+return(0);
+}
+else if(input[i]&gt;=&#39;a&#39;&amp;&amp;input[i]&lt;=&#39;z&#39;||input[i]&gt;=&#39;A&#39;&amp;&amp;input[i]&lt;=&#39;Z&#39;)
+{
+i++;
+return(1);
+
+}
+else
+return(0);
+}
+Output:
+Recursive descent parsing for the following grammar
+E-&gt;TE&#39;
+E&#39;-&gt;+TE&#39;/@
+T-&gt;FT&#39;
+T&#39;-&gt;*FT&#39;/@
+F-&gt;(E)/ID
+Enter the string to be checked: (a+b)*c
+String is accepted
+Enter the string to be checked: a/c+d
+String is not accepted
