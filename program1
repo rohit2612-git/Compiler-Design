@@ -1,0 +1,89 @@
+Program:
+#include&lt;stdio.h&gt;
+#include&lt;ctype.h&gt;
+#include&lt;string.h&gt;
+int main()
+{
+int i,ic=0,m,cc=0,oc=0,j;
+char b[30],operators[30],identifiers[30],constants[30];
+printf(&quot;enter the string : &quot;);
+scanf(&quot;%[^\n]s&quot;,&amp;b);
+for(i=0;i&lt;strlen(b);i++)
+{
+if(isspace(b[i]))
+{
+continue;
+}
+else if(isalpha(b[i]))
+
+{
+
+identifiers[ic] =b[i];
+ic++;
+}
+else if(isdigit(b[i]))
+
+{
+m=(b[i]-&#39;0&#39;);
+i=i+1;
+while(isdigit(b[i]))
+{
+
+m=m*10 + (b[i]-&#39;0&#39;);
+i++;
+}
+i=i-1;
+constants[cc]=m;
+cc++;
+}
+
+else
+{
+if(b[i]==&#39;*&#39;)
+{
+
+operators[oc]=&#39;*&#39;;
+oc++;
+}
+else if(b[i]==&#39;-&#39;)
+{
+
+operators[oc]=&#39;-&#39;;
+oc++;
+}
+else if(b[i]==&#39;+&#39;)
+{
+
+operators[oc]=&#39;+&#39;;
+oc++;
+}
+else if(b[i]==&#39;=&#39;)
+{
+
+operators[oc]=&#39;=&#39;;
+oc++;
+}
+}
+}
+printf(&quot; identifiers : &quot;);
+for(j=0;j&lt;ic;j++)
+{
+printf(&quot;%c &quot;,identifiers[j]);
+}
+printf(&quot;\n constants : &quot;);
+for(j=0;j&lt;cc;j++)
+{
+printf(&quot;%d &quot;,constants[j]);
+}
+printf(&quot;\n operators : &quot;);
+for(j=0;j&lt;oc;j++)
+{
+
+printf(&quot;%c &quot;,operators[j]);
+}
+}
+Output:
+enter the string : a = b + c * e + 100
+identifiers : a b c e
+constants : 100
+operators : = + * +
