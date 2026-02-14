@@ -1,0 +1,51 @@
+S → (L) / a
+L → L , S / S
+Program:
+#include&lt;stdio.h&gt;
+#include&lt;string.h&gt;
+#define SIZE 10
+int main () {
+char non_terminal;
+char beta,alpha;
+int num;
+char production[10][SIZE];
+int index=3; /* starting of the string following &quot;-&gt;&quot; */
+printf(&quot;Enter Number of Production : &quot;);
+scanf(&quot;%d&quot;,&amp;num);
+printf(&quot;Enter the grammar as E-&gt;E-A :\n&quot;);
+for(int i=0;i&lt;num;i++){
+scanf(&quot;%s&quot;,production[i]);
+}
+
+for(int i=0;i&lt;num;i++){
+printf(&quot;\nGRAMMAR : : : %s&quot;,production[i]);
+non_terminal=production[i][0];
+if(non_terminal==production[i][index]) {
+alpha=production[i][index+1];
+printf(&quot; is left recursive.\n&quot;);
+while(production[i][index]!=0 &amp;&amp; production[i][index]!=&#39;|&#39;)
+index++;
+if(production[i][index]!=0) {
+beta=production[i][index+1];
+printf(&quot;Grammar without left recursion:\n&quot;);
+printf(&quot;%c-&gt;%c%c\&#39;&quot;,non_terminal,beta,non_terminal);
+printf(&quot;\n%c\&#39;-&gt;%c%c\&#39;|E\n&quot;,non_terminal,alpha,non_terminal);
+}
+else
+printf(&quot; can&#39;t be reduced\n&quot;);
+}
+else
+printf(&quot; is not left recursive.\n&quot;);
+index=3;
+}
+}
+Output:
+Enter Number of Production : 2
+Enter the grammar as E-&gt;E-A :
+S-&gt;(L)|a
+L-&gt;L,S|S
+GRAMMAR : : : S-&gt;(L)|a is not left recursive.
+GRAMMAR : : : L-&gt;L,S|S is left recursive.
+Grammar without left recursion:
+L-&gt;SL&#39;
+L&#39;-&gt;,L&#39;|Eprorgam 
