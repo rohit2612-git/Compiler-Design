@@ -1,0 +1,147 @@
+Program:
+#include&lt;stdio.h&gt;
+#include&lt;string.h&gt;
+char *input;
+int i=0;
+char lasthandle[6],stack[50],handles[][5]={&quot;)E(&quot;,&quot;E*E&quot;,&quot;E+E&quot;,&quot;i&quot;,&quot;E^E&quot;};
+//(E) becomes )E( when pushed to stack
+int top=0,l;
+char prec[9][9]={
+/*input*/
+/*stack + - * / ^ i ( ) $ */
+/* + */ &#39;&gt;&#39;, &#39;&gt;&#39;,&#39;&lt;&#39;,&#39;&lt;&#39;,&#39;&lt;&#39;,&#39;&lt;&#39;,&#39;&lt;&#39;,&#39;&gt;&#39;,&#39;&gt;&#39;,
+/* - */ &#39;&gt;&#39;, &#39;&gt;&#39;,&#39;&lt;&#39;,&#39;&lt;&#39;,&#39;&lt;&#39;,&#39;&lt;&#39;,&#39;&lt;&#39;,&#39;&gt;&#39;,&#39;&gt;&#39;,
+/* * */ &#39;&gt;&#39;, &#39;&gt;&#39;,&#39;&gt;&#39;,&#39;&gt;&#39;,&#39;&lt;&#39;,&#39;&lt;&#39;,&#39;&lt;&#39;,&#39;&gt;&#39;,&#39;&gt;&#39;,
+/* / */ &#39;&gt;&#39;, &#39;&gt;&#39;,&#39;&gt;&#39;,&#39;&gt;&#39;,&#39;&lt;&#39;,&#39;&lt;&#39;,&#39;&lt;&#39;,&#39;&gt;&#39;,&#39;&gt;&#39;,
+/* ^ */ &#39;&gt;&#39;, &#39;&gt;&#39;,&#39;&gt;&#39;,&#39;&gt;&#39;,&#39;&lt;&#39;,&#39;&lt;&#39;,&#39;&lt;&#39;,&#39;&gt;&#39;,&#39;&gt;&#39;,
+/* i */ &#39;&gt;&#39;, &#39;&gt;&#39;,&#39;&gt;&#39;,&#39;&gt;&#39;,&#39;&gt;&#39;,&#39;e&#39;,&#39;e&#39;,&#39;&gt;&#39;,&#39;&gt;&#39;,
+/* ( */ &#39;&lt;&#39;, &#39;&lt;&#39;,&#39;&lt;&#39;,&#39;&lt;&#39;,&#39;&lt;&#39;,&#39;&lt;&#39;,&#39;&lt;&#39;,&#39;&gt;&#39;,&#39;e&#39;,
+/* ) */ &#39;&gt;&#39;, &#39;&gt;&#39;,&#39;&gt;&#39;,&#39;&gt;&#39;,&#39;&gt;&#39;,&#39;e&#39;,&#39;e&#39;,&#39;&gt;&#39;,&#39;&gt;&#39;,
+/* $ */ &#39;&lt;&#39;, &#39;&lt;&#39;,&#39;&lt;&#39;,&#39;&lt;&#39;,&#39;&lt;&#39;,&#39;&lt;&#39;,&#39;&lt;&#39;,&#39;&lt;&#39;,&#39;&gt;&#39;,
+
+};
+int getindex(char c)
+{
+switch(c)
+{
+case &#39;+&#39;:return 0;
+case &#39;-&#39;:return 1;
+case &#39;*&#39;:return 2;
+case &#39;/&#39;:return 3;
+case &#39;^&#39;:return 4;
+case &#39;i&#39;:return 5;
+case &#39;(&#39;:return 6;
+case &#39;)&#39;:return 7;
+case &#39;$&#39;:return 8;
+}
+}
+int shift()
+{
+stack[++top]=*(input+i++);
+stack[top+1]=&#39;\0&#39;;
+}
+
+int reduce()
+{
+int i,len,found,t;
+for(i=0;i&lt;5;i++)//selecting handles
+{
+len=strlen(handles[i]);
+if(stack[top]==handles[i][0]&amp;&amp;top+1&gt;=len)
+{
+found=1;
+for(t=0;t&lt;len;t++)
+{
+if(stack[top-t]!=handles[i][t])
+{
+found=0;
+
+break;
+}
+}
+if(found==1)
+{
+stack[top-t+1]=&#39;E&#39;;
+top=top-t+1;
+strcpy(lasthandle,handles[i]);
+stack[top+1]=&#39;\0&#39;;
+return 1;//successful reduction
+}
+}
+}
+return 0;
+}
+void dispstack()
+{
+int j;
+for(j=0;j&lt;=top;j++)
+printf(&quot;%c&quot;,stack[j]);
+}
+void dispinput()
+{
+int j;
+for(j=i;j&lt;l;j++)
+printf(&quot;%c&quot;,*(input+j));
+}
+
+void main()
+{
+int j;
+input=(char*)malloc(50*sizeof(char));
+printf(&quot;\nEnter the string\n&quot;);
+scanf(&quot;%s&quot;,input);
+input=strcat(input,&quot;$&quot;);
+
+l=strlen(input);
+strcpy(stack,&quot;$&quot;);
+printf(&quot;\nSTACK\tINPUT\tACTION&quot;);
+while(i&lt;=l)
+{
+shift();
+printf(&quot;\n&quot;);
+dispstack();
+printf(&quot;\t&quot;);
+dispinput();
+printf(&quot;\tShift&quot;);
+if(prec[getindex(stack[top])][getindex(input[i])]==&#39;&gt;&#39;)
+{
+while(reduce())
+{
+printf(&quot;\n&quot;);
+dispstack();
+printf(&quot;\t&quot;);
+dispinput();
+printf(&quot;\tReduced: E-&gt;%s&quot;,lasthandle);
+}
+}
+}
+if(strcmp(stack,&quot;$E$&quot;)==0)
+printf(&quot;\nAccepted;&quot;);
+else
+printf(&quot;\nNot Accepted;&quot;);
+}
+Output:
+Enter the string
+i*(i+i)*i
+STACK INPUT ACTION
+$i *(i+i)*i$ Shift
+$E *(i+i)*i$ Reduced: E-&gt;i
+$E* (i+i)*i$ Shift
+$E*( i+i)*i$ Shift
+$E*(i +i)*i$ Shift
+
+$E*(E +i)*i$ Reduced: E-&gt;i
+$E*(E+ i)*i$ Shift
+$E*(E+i )*i$ Shift
+$E*(E+E )*i$ Reduced: E-&gt;i
+$E*(E )*i$ Reduced: E-&gt;E+E
+$E*(E) *i$ Shift
+$E*E *i$ Reduced: E-&gt;)E(
+$E *i$ Reduced: E-&gt;E*E
+$E* i$ Shift
+$E*i $ Shift
+$E*E $ Reduced: E-&gt;i
+$E $ Reduced: E-&gt;E*E
+$E$ Shift
+$E$ Shift
+Accepted;
