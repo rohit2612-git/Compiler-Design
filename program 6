@@ -1,0 +1,30 @@
+Program:
+#include&lt;stdio.h&gt;
+#include&lt;conio.h&gt;
+#include&lt;ctype.h&gt;
+int main()
+{
+char a[10];
+int flag, i=1;
+printf(&quot;\n Enter an identifier:&quot;);
+gets(a);
+if(isalpha(a[0]))
+flag=1;
+else
+printf(&quot;\n Not a valid identifier&quot;);
+while(a[i]!=&#39;\0&#39;)
+{
+if(!isdigit(a[i])&amp;&amp;!isalpha(a[i]))
+{
+flag=0;
+break;
+} i++;
+}
+if(flag==1)
+printf(&quot;\n Valid identifier&quot;);
+
+}
+Output:
+
+Enter an identifier:abc123
+Valid identifier
