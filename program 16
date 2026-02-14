@@ -1,0 +1,62 @@
+Program:
+#include&lt;stdio.h&gt;
+#include&lt;conio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;string.h&gt;
+struct three
+{
+char data[10],temp[7];
+}s[30];
+int main()
+{
+char d1[7],d2[7]=&quot;t&quot;;
+int i=0,j=1,len=0;
+FILE *f1,*f2;
+//clrscr();
+f1=fopen(&quot;sum.txt&quot;,&quot;r&quot;);
+f2=fopen(&quot;out.txt&quot;,&quot;w&quot;);
+while(fscanf(f1,&quot;%s&quot;,s[len].data)!=EOF)
+len++;
+itoa(j,d1,7);
+
+strcat(d2,d1);
+strcpy(s[j].temp,d2);
+strcpy(d1,&quot;&quot;);
+strcpy(d2,&quot;t&quot;);
+if(!strcmp(s[3].data,&quot;+&quot;))
+{
+fprintf(f2,&quot;%s=%s+%s&quot;,s[j].temp,s[i+2].data,s[i+4].data);
+j++;
+}
+else if(!strcmp(s[3].data,&quot;-&quot;))
+{
+fprintf(f2,&quot;%s=%s-%s&quot;,s[j].temp,s[i+2].data,s[i+4].data);
+j++;
+}
+for(i=4;i&lt;len-2;i+=2)
+{
+itoa(j,d1,7);
+strcat(d2,d1);
+strcpy(s[j].temp,d2);
+if(!strcmp(s[i+1].data,&quot;+&quot;))
+fprintf(f2,&quot;\n%s=%s+%s&quot;,s[j].temp,s[j-1].temp,s[i+2].data);
+else if(!strcmp(s[i+1].data,&quot;-&quot;))
+fprintf(f2,&quot;\n%s=%s-%s&quot;,s[j].temp,s[j-1].temp,s[i+2].data);
+strcpy(d1,&quot;&quot;);
+strcpy(d2,&quot;t&quot;);
+j++;
+}
+fprintf(f2,&quot;\n%s=%s&quot;,s[0].data,s[j-1].temp);
+fclose(f1);
+fclose(f2);
+getch();
+}
+Output:
+Input:  sum.txt
+out = in1 + in2 + in3 - in4
+Output:  out.txt
+t1=in1+in2
+
+t2=t1+in3
+t3=t2-in4
+out=t3
