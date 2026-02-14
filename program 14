@@ -1,0 +1,83 @@
+Program:
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;conio.h&gt;
+#include&lt;string.h&gt;
+char ip_sym[15],stack[15]; int ip_ptr=0,st_ptr=0,len,i; char temp[2],temp2[2];
+char act[15];
+void check(); int main()
+{
+//clrscr();
+printf(&quot;\n\t\t SHIFT REDUCE PARSER\n&quot;); printf(&quot;\n GRAMMER\n&quot;);
+
+printf(&quot;\n E-&gt;E+E\n E-&gt;E/E&quot;); printf(&quot;\n E-&gt;E*E\n E-&gt;a/b&quot;); printf(&quot;\n enter the
+input symbol:\t&quot;); gets(ip_sym);
+printf(&quot;\n\t stack implementation table&quot;); printf(&quot;\n stack \t\t input symbol\t\t
+action&quot;);
+printf(&quot;\n \t\t \t\t \n&quot;);
+printf(&quot;\n $\t\t%s$\t\t\t--&quot;,ip_sym); strcpy(act,&quot;shift &quot;);
+temp[0]=ip_sym[ip_ptr]; temp[1]=&#39;\0&#39;;
+strcat(act,temp); len=strlen(ip_sym); for(i=0;i&lt;=len-1;i++)
+{
+stack[st_ptr]=ip_sym[ip_ptr];
+stack[st_ptr+1]=&#39;\0&#39;; ip_sym[ip_ptr]=&#39; &#39;; ip_ptr++;
+printf(&quot;\n $%s\t\t%s$\t\t\t%s&quot;,stack,ip_sym,act); strcpy(act,&quot;shift&quot;);
+temp[0]=ip_sym[ip_ptr]; temp[1]=&#39;\0&#39;; strcat(act,temp); check();
+st_ptr++;
+}
+st_ptr++; check();
+}
+void check()
+{
+int flag=0; temp2[0]=stack[st_ptr]; temp2[1]=&#39;\0&#39;;
+if((!strcmpi(temp2,&quot;a&quot;))||(!strcmpi(temp2,&quot;b&quot;)))
+{
+stack[st_ptr]=&#39;E&#39;; if(!strcmpi(temp2,&quot;a&quot;))
+printf(&quot;\n $%s\t\t%s$\t\t\tE-&gt;a&quot;,stack,ip_sym); else
+printf(&quot;\n $%s\t\t%s$\t\t\tE-&gt;b&quot;,stack,ip_sym); flag=1;
+}
+if((!strcmpi(temp2,&quot;+&quot;))||(strcmpi(temp2,&quot;*&quot;))||(!strcmpi(temp2,&quot;/&quot;)))
+{
+flag=1;
+}
+if((!strcmpi(stack,&quot;E+E&quot;))||(!strcmpi(stack,&quot;E\E&quot;))||(!strcmpi(stack,&quot;E*E&quot;)))
+{
+strcpy(stack,&quot;E&quot;); st_ptr=0; if(!strcmpi(stack,&quot;E+E&quot;))
+printf(&quot;\n $%s\t\t%s$\t\t\tE-&gt;E+E&quot;,stack,ip_sym); else
+if(!strcmpi(stack,&quot;E\E&quot;))
+printf(&quot;\n $%s\t\t%s$\t\t\tE-&gt;E\E&quot;,stack,ip_sym); else
+
+if(!strcmpi(stack,&quot;E*E&quot;))
+printf(&quot;\n $%s\t\t%s$\t\t\tE-&gt;E*E&quot;,stack,ip_sym); else
+printf(&quot;\n $%s\t\t%s$\t\t\tE-&gt;E+E&quot;,stack,ip_sym); flag=1;
+}
+if(!strcmpi(stack,&quot;E&quot;)&amp;&amp;ip_ptr==len)
+{
+printf(&quot;\n $%s\t\t%s$\t\t\tACCEPT&quot;,stack,ip_sym); getch();
+exit(0);
+}
+if(flag==0)
+{
+printf(&quot;\n%s\t\t\t%s\t\t reject&quot;,stack,ip_sym); exit(0);
+}
+return;
+}
+Output:
+SHIFT REDUCE PARSER
+GRAMMER
+E-&gt;E+E
+E-&gt;E/E
+E-&gt;E*E
+E-&gt;a/b
+enter the input symbol: a+b
+stack implementation table
+stack input symbol action
+$ a+b$ --
+$a +b$ shift a
+$E +b$ E-&gt;a
+$E+ b$ shift+
+$E+b $ shiftb
+$E+E $ E-&gt;b
+
+$E $ E-&gt;E+E
+$E $ ACCEPT
