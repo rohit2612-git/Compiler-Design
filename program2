@@ -1,0 +1,45 @@
+Program:
+#include&lt;stdio.h&gt;
+#include&lt;conio.h&gt;
+int main()
+{
+char com[30];
+int i=2,a=0;
+printf(&quot;\n Enter comment:&quot;);
+gets(com);
+if(com[0]==&#39;/&#39;)
+{
+if(com[1]==&#39;/&#39;)
+printf(&quot;\n It is a comment&quot;);
+else if(com[1]==&#39;*&#39;)
+{
+for(i=2;i&lt;=30;i++)
+{
+if(com[i]==&#39;*&#39;&amp;&amp;com[i+1]==&#39;/&#39;)
+{
+printf(&quot;\n It is a comment&quot;);
+a=1;
+break;
+}
+else
+
+continue;
+
+}
+if(a==0)
+printf(&quot;\n It is not a comment&quot;);
+
+}
+else
+printf(&quot;\n It is not a comment&quot;);
+
+}
+else
+printf(&quot;\n It is not a comment&quot;);
+
+}
+Output:
+Input: Enter comment: //hello
+Output: It is a comment
+Input: Enter comment: hello
+Output: It is not a comment
